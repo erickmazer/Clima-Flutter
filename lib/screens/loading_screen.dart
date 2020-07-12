@@ -7,22 +7,37 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+  }
+
   void getLocation() async {
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-    print(position);
+    try {
+      Position position = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+      print(position);
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    String myMargin = '5';
+    double myMarginAsADouble;
+
+    try {
+      myMarginAsADouble = double.parse(myMargin);
+    } catch (e) {
+      print(e);
+    }
+
     return Scaffold(
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            getLocation();
-          },
-          child: Text('Get Location'),
-        ),
+      body: Container(
+        margin: EdgeInsets.all(myMarginAsADouble ?? 24.0),
+        color: Colors.blueGrey,
       ),
     );
   }
